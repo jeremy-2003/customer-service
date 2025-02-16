@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Customer Service API
+  description: Reactive API for managing bank customers.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api/customers
+    description: Local server
+paths:
+  /:
+    post:
+      summary: Create a new customer
+      description: Registers a new personal or business customer.
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "201":
+          description: Customer successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "400":
+          description: Invalid request data
+    get:
+      summary: Retrieve all customers
+      description: Returns a list of all registered customers.
+      operationId: getAllCustomers
+      responses:
+        "200":
+          description: Customers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+  /{id}:
+    get:
+      summary: Retrieve customer by ID
+      description: Returns customer details based on the provided ID.
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Customer not found
+    put:
+      summary: Update customer details
+      description: Updates an existing customer's information.
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Customer"
+      responses:
+        "200":
+          description: Customer successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        "404":
+          description: Customer not found
+    delete:
+      summary: Delete a customer
+      description: Removes a customer from the system.
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Customer successfully deleted
+        "404":
+          description: Customer not found
+  /type/{type}:
+    get:
+      summary: Retrieve customers by type
+      description: Returns a list of customers filtered by type (personal or business).
+      operationId: getCustomersByType
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [PERSONAL, BUSINESS]
+      responses:
+        "200":
+          description: Customers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Customer"
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the customer
+        fullName:
+          type: string
+          description: Customer's full name
+        documentNumber:
+          type: string
+          description: Customer's identification document number
+        customerType:
+          type: string
+          enum: [PERSONAL, BUSINESS]
+          description: Type of customer (personal or business)
+        email:
+          type: string
+          description: Customer's email address
+        phone:
+          type: string
+          description: Customer's phone number
+        createdAt:
+          type: string
+          format: date-time
+          description: Date and time when the customer was registered
+        modifyAd:
+          type: string
+          format: date-time
+          description: Date and time when the customer was modified
+        status:
+          type: string
+          description: State of the customer as active, delete, down, etc
