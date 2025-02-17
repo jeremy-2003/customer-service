@@ -4,13 +4,9 @@ import com.bank.customerservice.dto.BaseResponse;
 import com.bank.customerservice.model.Customer;
 import com.bank.customerservice.model.CustomerType;
 import com.bank.customerservice.service.CustomerService;
-import com.fasterxml.jackson.databind.ser.Serializers;
-import org.apache.http.client.methods.HttpPatch;
-import org.springframework.expression.spel.ast.Literal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
@@ -56,8 +52,8 @@ public class CustomerController {
                         ));
     }
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<BaseResponse<Customer>>> getCustomerByDocumentNumber(@PathVariable String id){
-        return customerService.getCustomerByDocumentNumber(id)
+    public Mono<ResponseEntity<BaseResponse<Customer>>> getCustomerById(@PathVariable String id){
+        return customerService.getCustomerById(id)
                 .map(customer -> ResponseEntity.ok(
                         BaseResponse.<Customer>builder()
                                 .status(HttpStatus.OK.value())

@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
-
-    public CustomerService(CustomerRepository customerRepository) {
+    private final CustomerEventProducer eventProducer;
+    public CustomerService(CustomerRepository customerRepository, CustomerEventProducer eventProducer) {
         this.customerRepository = customerRepository;
+        this.eventProducer = eventProducer;
     }
 
     public Mono<Customer> createCustomer(Customer customer){
@@ -29,19 +30,19 @@ public class CustomerService {
                                     customer.setStatus("ACTIVE");
                                     return customerRepository.save(customer);
                                 })
-                        );
+                                .doOnSuccess(eventProducer::publishCustomerCreated));
     }
     public Flux<Customer> getAllCustomers(){
         return customerRepository.findAll();
     }
-    public Mono<Customer> getCustomerByDocumentNumber(String Id){
-        return customerRepository.findByDocumentNumber(Id);
+    public Mono<Customer> getCustomerById(String Id){
+        return customerRepository.findById(Id);
     }
     public Flux<Customer> getCustomerByType(CustomerType type){
         return customerRepository.findByCustomerType(type);
     }
     public Mono<Customer> updateCustomer(String Id, Customer customer){
-        return customerRepository.findByDocumentNumber(Id)
+        return customerRepository.findById(Id)
                 .flatMap(existingCustomer -> {
                    Customer updateCustomer = Customer.builder()
                            .id(existingCustomer.getId())
@@ -58,7 +59,7 @@ public class CustomerService {
                 });
     }
     public Mono<Customer> deleteCustomer(String id){
-        return customerRepository.findByDocumentNumber(id)
+        return customerRepository.findById(id)
                 .flatMap(existingCustomer ->{
                     existingCustomer.setStatus("DELETED");
                     existingCustomer.setModifiedAd(LocalDateTime.now());
