@@ -1,4 +1,4 @@
-package com.bank.customerservice.model;
+package com.bank.customerservice.model.customer;
 
 public enum CustomerType {
     PERSONAL, BUSINESS

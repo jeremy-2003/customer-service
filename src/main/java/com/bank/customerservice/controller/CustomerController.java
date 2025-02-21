@@ -1,8 +1,8 @@
 package com.bank.customerservice.controller;
 
 import com.bank.customerservice.dto.BaseResponse;
-import com.bank.customerservice.model.Customer;
-import com.bank.customerservice.model.CustomerType;
+import com.bank.customerservice.model.customer.Customer;
+import com.bank.customerservice.model.customer.CustomerType;
 import com.bank.customerservice.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -104,6 +104,23 @@ public class CustomerController {
                         BaseResponse.<Customer>builder()
                                 .status(HttpStatus.OK.value())
                                 .message("Customer successfully deleted (soft delete)")
+                                .data(updatedCustomer)
+                                .build()))
+                .switchIfEmpty(Mono.just(ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(BaseResponse.<Customer>builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .message("Customer not found")
+                                .data(null)
+                                .build())));
+    }
+    @PutMapping("/{customerId}/vip-pym/status")
+    public Mono<ResponseEntity<BaseResponse<Customer>>> updateVipPymStatus(@PathVariable String customerId, @RequestParam boolean isVipPym){
+        return customerService.updateVipPymStatus(customerId, isVipPym)
+                .map(updatedCustomer -> ResponseEntity.ok(
+                        BaseResponse.<Customer>builder()
+                                .status(HttpStatus.OK.value())
+                                .message("Customer successfully update")
                                 .data(updatedCustomer)
                                 .build()))
                 .switchIfEmpty(Mono.just(ResponseEntity

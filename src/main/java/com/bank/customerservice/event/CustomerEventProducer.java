@@ -1,9 +1,7 @@
-package com.bank.customerservice.service;
+package com.bank.customerservice.event;
 
-import com.bank.customerservice.model.Customer;
-import com.bank.customerservice.model.CustomerType;
+import com.bank.customerservice.model.customer.Customer;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 @Slf4j

@@ -1,4 +1,4 @@
-package com.bank.customerservice.model;
+package com.bank.customerservice.model.customer;
 
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
@@ -22,4 +22,8 @@ public class Customer {
     private LocalDateTime createdAd;
     private LocalDateTime modifiedAd;
     private String status;
+
+    //Only for special profiles
+    private boolean isVip;
+    private boolean isPym;
 }
