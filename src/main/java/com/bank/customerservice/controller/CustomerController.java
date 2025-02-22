@@ -17,12 +17,12 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService){
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping
-    public Mono<ResponseEntity<BaseResponse<Customer>>> createCustomer(@RequestBody Customer customer){
+    public Mono<ResponseEntity<BaseResponse<Customer>>> createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer)
                 .map(savedCustomer -> ResponseEntity
                         .created(URI.create("/api/customer/" + savedCustomer.getId()))
@@ -40,7 +40,7 @@ public class CustomerController {
                                 .build())));
     }
     @GetMapping
-    public Mono<ResponseEntity<BaseResponse<List<Customer>>>> getAllCustomers(){
+    public Mono<ResponseEntity<BaseResponse<List<Customer>>>> getAllCustomers() {
         return customerService.getAllCustomers()
                         .collectList()
                         .map(customers -> ResponseEntity.ok(
@@ -52,7 +52,7 @@ public class CustomerController {
                         ));
     }
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<BaseResponse<Customer>>> getCustomerById(@PathVariable String id){
+    public Mono<ResponseEntity<BaseResponse<Customer>>> getCustomerById(@PathVariable String id) {
         return customerService.getCustomerById(id)
                 .map(customer -> ResponseEntity.ok(
                         BaseResponse.<Customer>builder()
@@ -69,7 +69,7 @@ public class CustomerController {
                                 .build())));
     }
     @GetMapping("/type/{type}")
-    public Mono<ResponseEntity<BaseResponse<List<Customer>>>> getCustomerByType(@PathVariable CustomerType type){
+    public Mono<ResponseEntity<BaseResponse<List<Customer>>>> getCustomerByType(@PathVariable CustomerType type) {
         return customerService.getCustomerByType(type)
                 .collectList()
                 .map(customers -> ResponseEntity.ok(
@@ -81,7 +81,8 @@ public class CustomerController {
                 ));
     }
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<BaseResponse<Customer>>> updateCustomer(@PathVariable String id, @RequestBody Customer customer){
+    public Mono<ResponseEntity<BaseResponse<Customer>>> updateCustomer(@PathVariable String id,
+                                                                       @RequestBody Customer customer) {
         return customerService.updateCustomer(id, customer)
                 .map(updatedCustomer -> ResponseEntity.ok(
                         BaseResponse.<Customer>builder()
@@ -98,7 +99,7 @@ public class CustomerController {
                                 .build())));
     }
     @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<BaseResponse<Customer>>> deleteCustomer(@PathVariable String id){
+    public Mono<ResponseEntity<BaseResponse<Customer>>> deleteCustomer(@PathVariable String id) {
         return customerService.deleteCustomer(id)
                 .map(updatedCustomer -> ResponseEntity.ok(
                         BaseResponse.<Customer>builder()
@@ -115,7 +116,8 @@ public class CustomerController {
                                 .build())));
     }
     @PutMapping("/{customerId}/vip-pym/status")
-    public Mono<ResponseEntity<BaseResponse<Customer>>> updateVipPymStatus(@PathVariable String customerId, @RequestParam boolean isVipPym){
+    public Mono<ResponseEntity<BaseResponse<Customer>>> updateVipPymStatus(@PathVariable String customerId,
+                                                                           @RequestParam boolean isVipPym) {
         return customerService.updateVipPymStatus(customerId, isVipPym)
                 .map(updatedCustomer -> ResponseEntity.ok(
                         BaseResponse.<Customer>builder()

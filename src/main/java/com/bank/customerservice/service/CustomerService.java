@@ -19,9 +19,10 @@ public class CustomerService {
         this.eventProducer = eventProducer;
     }
 
-    public Mono<Customer> createCustomer(Customer customer){
+    public Mono<Customer> createCustomer(Customer customer) {
         return customerRepository.findByDocumentNumber(customer.getDocumentNumber())
-                        .flatMap(existingCustomer -> Mono.error(new RuntimeException("Customer with this document number already exists")))
+                        .flatMap(existingCustomer ->
+                                Mono.error(new RuntimeException("Customer with this document number already exists")))
                         .cast(Customer.class)
                         .switchIfEmpty(
                                 Mono.defer(() -> {
@@ -32,19 +33,20 @@ public class CustomerService {
                                 })
                                 .doOnSuccess(eventProducer::publishCustomerCreated));
     }
-    public Flux<Customer> getAllCustomers(){
+
+    public Flux<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
-    public Mono<Customer> getCustomerById(String Id){
+    public Mono<Customer> getCustomerById(String Id) {
         return customerRepository.findById(Id);
     }
-    public Flux<Customer> getCustomerByType(CustomerType type){
+    public Flux<Customer> getCustomerByType(CustomerType type) {
         return customerRepository.findByCustomerType(type);
     }
-    public Mono<Customer> updateCustomer(String id, Customer customer){
+    public Mono<Customer> updateCustomer(String id, Customer customer) {
         return customerRepository.findById(id)
                 .flatMap(existingCustomer -> {
-                   Customer updateCustomer = Customer.builder()
+                    Customer updateCustomer = Customer.builder()
                            .id(existingCustomer.getId())
                            .fullName(customer.getFullName())
                            .documentNumber(existingCustomer.getDocumentNumber())
@@ -55,22 +57,23 @@ public class CustomerService {
                            .modifiedAd(LocalDateTime.now())
                            .status(existingCustomer.getStatus())
                            .build();
-                   return customerRepository.save(updateCustomer);
+                    return customerRepository.save(updateCustomer);
                 });
     }
-    public Mono<Customer> updateVipPymStatus(String idCustomer, boolean isVipPym){
+    public Mono<Customer> updateVipPymStatus(String idCustomer, boolean isVipPym) {
         return customerRepository.findById(idCustomer)
-                .flatMap(existUser ->{
-                    if(existUser.getCustomerType() == CustomerType.BUSINESS)
+                .flatMap(existUser -> {
+                    if (existUser.getCustomerType() == CustomerType.BUSINESS) {
                         existUser.setPym(isVipPym);
-                    else
+                    } else {
                         existUser.setVip(isVipPym);
+                    }
                     return customerRepository.save(existUser);
                 });
     }
-    public Mono<Customer> deleteCustomer(String id){
+    public Mono<Customer> deleteCustomer(String id) {
         return customerRepository.findById(id)
-                .flatMap(existingCustomer ->{
+                .flatMap(existingCustomer -> {
                     existingCustomer.setStatus("DELETED");
                     existingCustomer.setModifiedAd(LocalDateTime.now());
                     return customerRepository.save(existingCustomer);
