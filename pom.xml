@@ -83,11 +83,6 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
 		</dependency>
@@ -95,10 +90,16 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		<!-- Test -->
+		<!-- Test Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.7.2</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- Project Reactor Test -->
@@ -138,6 +139,9 @@
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
+					<excludes>
+						<exclude>**/target/generated-sources/openapi/src/test/**/*.java</exclude>
+					</excludes>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -174,6 +178,7 @@
 							<generatorName>spring</generatorName>
 							<apiPackage>com.bank.customerservice.api</apiPackage>
 							<modelPackage>com.bank.customerservice.model</modelPackage>
+							<output>${project.build.directory}/generated-sources/openapi-custom</output>
 							<configOptions>
 								<library>spring-boot</library>
 								<reactive>true</reactive>
@@ -182,6 +187,29 @@
 								<skipApplication>true</skipApplication>
 								<documentationProvider>springdoc</documentationProvider>
 							</configOptions>
+							<additionalProperties>
+								<additionalProperty>generateApiTests=false</additionalProperty>
+								<additionalProperty>generateModelTests=false</additionalProperty>
+								<additionalProperty>testOutput=false</additionalProperty>
+							</additionalProperties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/openapi-custom/src/main/java</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>
@@ -194,9 +222,7 @@
 						<exclude>**/target/**</exclude>
 						<exclude>org/openapitools/configuration/**</exclude>
 						<exclude>org/openapitools/**</exclude>
-
 						<exclude>com/bank/customerservice/api/**</exclude>
-
 						<exclude>com/bank/customerservice/dto/**</exclude>
 						<exclude>com/bank/customerservice/model/**</exclude>
 						<exclude>com/bank/customerservice/CustomerServiceApplication.java</exclude>
@@ -248,6 +274,7 @@
 					</includes>
 					<excludes>
 						<exclude>**/*IT.java</exclude>
+						<exclude>**/target/generated-sources/openapi/src/test/**/*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
