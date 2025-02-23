@@ -172,8 +172,8 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
 							<generatorName>spring</generatorName>
-							<apiPackage>com.bank.customer.api</apiPackage>
-							<modelPackage>com.bank.customer.model</modelPackage>
+							<apiPackage>com.bank.customerservice.api</apiPackage>
+							<modelPackage>com.bank.customerservice.model</modelPackage>
 							<configOptions>
 								<library>spring-boot</library>
 								<reactive>true</reactive>
@@ -195,8 +195,7 @@
 						<exclude>org/openapitools/configuration/**</exclude>
 						<exclude>org/openapitools/**</exclude>
 
-						<exclude>com/bank/customer/api/**</exclude>
-						<exclude>com/bank/customer/model/**</exclude>
+						<exclude>com/bank/customerservice/api/**</exclude>
 
 						<exclude>com/bank/customerservice/dto/**</exclude>
 						<exclude>com/bank/customerservice/model/**</exclude>
