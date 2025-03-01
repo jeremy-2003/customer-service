@@ -37,7 +37,7 @@ class CustomerControllerTest {
                 .email("john@example.com")
                 .phone("1234567890")
                 .status("ACTIVE")
-                .createdAd(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
     @Test
@@ -163,7 +163,7 @@ class CustomerControllerTest {
                 .customerType(customer.getCustomerType())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
+                .createdAt(customer.getCreatedAt())
                 .status("DELETED")
                 .modifiedAd(LocalDateTime.now())
                 .build();
@@ -200,7 +200,7 @@ class CustomerControllerTest {
                 .customerType(CustomerType.BUSINESS)
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
+                .createdAt(customer.getCreatedAt())
                 .status(customer.getStatus())
                 .build();
 
@@ -211,7 +211,7 @@ class CustomerControllerTest {
                 .customerType(businessCustomer.getCustomerType())
                 .email(businessCustomer.getEmail())
                 .phone(businessCustomer.getPhone())
-                .createdAd(businessCustomer.getCreatedAd())
+                .createdAt(businessCustomer.getCreatedAt())
                 .status(businessCustomer.getStatus())
                 .isPym(false)
                 .isVip(true)

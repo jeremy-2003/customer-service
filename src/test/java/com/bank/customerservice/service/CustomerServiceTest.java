@@ -34,7 +34,7 @@ class CustomerServiceTest {
                 .email("john@example.com")
                 .phone("1234567890")
                 .status("ACTIVE")
-                .createdAd(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
     @Test
@@ -98,8 +98,8 @@ class CustomerServiceTest {
                 .customerType(customer.getCustomerType())
                 .email("john.updated@example.com")
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
-                .modifiedAd(LocalDateTime.now())
+                .createdAt(customer.getCreatedAt())
+                .modifiedAt(LocalDateTime.now())
                 .status(customer.getStatus())
                 .build();
         when(customerRepository.findById("1"))
@@ -121,7 +121,7 @@ class CustomerServiceTest {
                 .customerType(customer.getCustomerType())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
+                .createdAt(customer.getCreatedAt())
                 .status(customer.getStatus())
                 .isVip(true)
                 .build();
@@ -144,7 +144,7 @@ class CustomerServiceTest {
                 .customerType(CustomerType.BUSINESS)
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
+                .createdAt(customer.getCreatedAt())
                 .status(customer.getStatus())
                 .build();
         Customer pymCustomer = Customer.builder()
@@ -154,7 +154,7 @@ class CustomerServiceTest {
                 .customerType(businessCustomer.getCustomerType())
                 .email(businessCustomer.getEmail())
                 .phone(businessCustomer.getPhone())
-                .createdAd(businessCustomer.getCreatedAd())
+                .createdAt(businessCustomer.getCreatedAt())
                 .status(businessCustomer.getStatus())
                 .isPym(true)
                 .build();
@@ -177,8 +177,8 @@ class CustomerServiceTest {
                 .customerType(customer.getCustomerType())
                 .email(customer.getEmail())
                 .phone(customer.getPhone())
-                .createdAd(customer.getCreatedAd())
-                .modifiedAd(LocalDateTime.now())
+                .createdAt(customer.getCreatedAt())
+                .modifiedAt(LocalDateTime.now())
                 .status("DELETED")
                 .build();
         when(customerRepository.findById("1"))

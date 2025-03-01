@@ -19,8 +19,8 @@ public class Customer {
     private CustomerType customerType;
     private String email;
     private String phone;
-    private LocalDateTime createdAd;
-    private LocalDateTime modifiedAd;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private String status;
 
     //Only for special profiles

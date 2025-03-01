@@ -34,7 +34,7 @@ class CustomerEventProducerTest {
                 .email("john@example.com")
                 .phone("1234567890")
                 .status("ACTIVE")
-                .createdAd(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
         ProducerRecord<String, Customer> producerRecord = new ProducerRecord<>("customer-created",
                 customer.getId(), customer);

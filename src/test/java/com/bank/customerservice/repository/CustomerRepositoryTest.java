@@ -30,8 +30,8 @@ class CustomerRepositoryTest {
                 .email("john@example.com")
                 .phone("987654321")
                 .status("ACTIVE")
-                .createdAd(LocalDateTime.now())
-                .modifiedAd(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .isVip(true)
                 .isPym(false)
                 .build();
@@ -44,8 +44,8 @@ class CustomerRepositoryTest {
                 .email("jane@example.com")
                 .phone("123456789")
                 .status("ACTIVE")
-                .createdAd(LocalDateTime.now())
-                .modifiedAd(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .isVip(false)
                 .isPym(true)
                 .build();

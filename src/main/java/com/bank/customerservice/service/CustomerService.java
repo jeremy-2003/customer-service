@@ -26,8 +26,8 @@ public class CustomerService {
                         .cast(Customer.class)
                         .switchIfEmpty(
                                 Mono.defer(() -> {
-                                    customer.setCreatedAd(LocalDateTime.now());
-                                    customer.setModifiedAd(null);
+                                    customer.setCreatedAt(LocalDateTime.now());
+                                    customer.setModifiedAt(null);
                                     customer.setStatus("ACTIVE");
                                     return customerRepository.save(customer);
                                 })
@@ -53,8 +53,8 @@ public class CustomerService {
                            .customerType(customer.getCustomerType())
                            .email(customer.getEmail())
                            .phone(customer.getPhone())
-                           .createdAd(existingCustomer.getCreatedAd())
-                           .modifiedAd(LocalDateTime.now())
+                           .createdAt(existingCustomer.getCreatedAt())
+                           .modifiedAt(LocalDateTime.now())
                            .status(existingCustomer.getStatus())
                            .build();
                     return customerRepository.save(updateCustomer);
@@ -75,7 +75,7 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .flatMap(existingCustomer -> {
                     existingCustomer.setStatus("DELETED");
-                    existingCustomer.setModifiedAd(LocalDateTime.now());
+                    existingCustomer.setModifiedAt(LocalDateTime.now());
                     return customerRepository.save(existingCustomer);
                 });
     }
