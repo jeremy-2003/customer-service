@@ -165,7 +165,7 @@ class CustomerControllerTest {
                 .phone(customer.getPhone())
                 .createdAt(customer.getCreatedAt())
                 .status("DELETED")
-                .modifiedAd(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .build();
         when(customerService.deleteCustomer(anyString()))
                 .thenReturn(Mono.just(deletedCustomer));
