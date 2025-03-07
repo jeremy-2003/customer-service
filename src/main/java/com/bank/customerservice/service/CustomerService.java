@@ -40,6 +40,9 @@ public class CustomerService {
     public Mono<Customer> getCustomerById(String Id) {
         return customerRepository.findById(Id);
     }
+    public Mono<Customer> getCustomerByDocumentNumber(String documentNumber) {
+        return  customerRepository.findByDocumentNumber(documentNumber);
+    }
     public Flux<Customer> getCustomerByType(CustomerType type) {
         return customerRepository.findByCustomerType(type);
     }

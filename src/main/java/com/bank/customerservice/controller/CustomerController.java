@@ -68,6 +68,24 @@ public class CustomerController {
                                 .data(null)
                                 .build())));
     }
+    @GetMapping("/document/{documentNumber}")
+    public Mono<ResponseEntity<BaseResponse<Customer>>> getCustomerByDocumentNumber(
+        @PathVariable String documentNumber) {
+        return customerService.getCustomerByDocumentNumber(documentNumber)
+                .map(customer -> ResponseEntity.ok(
+                        BaseResponse.<Customer>builder()
+                                .status(HttpStatus.OK.value())
+                                .message("Customer details retrieved successfully")
+                                .data(customer)
+                                .build()))
+                .switchIfEmpty(Mono.just(ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(BaseResponse.<Customer>builder()
+                                .status(HttpStatus.NOT_FOUND.value())
+                                .message("Customer not found")
+                                .data(null)
+                                .build())));
+    }
     @GetMapping("/type/{type}")
     public Mono<ResponseEntity<BaseResponse<List<Customer>>>> getCustomerByType(@PathVariable CustomerType type) {
         return customerService.getCustomerByType(type)
